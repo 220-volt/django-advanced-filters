@@ -23,8 +23,8 @@ class AdvancedFilter(models.Model):
                                    related_name='created_advanced_filters', verbose_name=_('Created by'), on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, null=True, verbose_name=_('Created at'))
     url = models.CharField(max_length=255, null=False, blank=False, verbose_name=_('URL'))
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, verbose_name=_('Users'), on_delete=models.CASCADE)
-    groups = models.ManyToManyField('auth.Group', blank=True, verbose_name=_('Groups'), on_delete=models.CASCADE)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, verbose_name=_('Users'))
+    groups = models.ManyToManyField('auth.Group', blank=True, verbose_name=_('Groups'))
 
     objects = UserLookupManager()
 
