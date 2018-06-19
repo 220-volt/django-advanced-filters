@@ -113,6 +113,13 @@ class AdvancedFilterQueryForm(CleanWhiteSpacesMixin, forms.Form):
             operator=formdata['operator']
         )
 
+        field = None
+        for part in formdata['field'].split('__'):
+            if field:
+                field = field._meta.get_field(part)
+            else:
+                field = model._meta.get_field(part)
+        
         if formdata['operator'] == "isnull":
             return {key: None}
         elif formdata['operator'] == "istrue":
@@ -120,7 +127,7 @@ class AdvancedFilterQueryForm(CleanWhiteSpacesMixin, forms.Form):
         elif formdata['operator'] == "isfalse":
             return {formdata['field']: False}
         elif model \
-                and model._meta.get_field(formdata['field']).remote_field is not None \
+                and field.remote_field is not None \
                 and formdata['operator'] in ['iexact', 'icontains', 'iregex']:
 
             value = re.findall(r'(\d+)', value)
