@@ -120,7 +120,7 @@ class AdvancedFilterQueryForm(CleanWhiteSpacesMixin, forms.Form):
         elif formdata['operator'] == "isfalse":
             return {formdata['field']: False}
         elif model \
-                and model._meta.get_field(formdata['field']).rel is not None \
+                and getattr(model._meta.get_field(formdata['field']), 'rel', None) is not None \
                 and formdata['operator'] in ['iexact', 'icontains', 'iregex']:
 
             value = re.findall(r'(\d+)', value)
